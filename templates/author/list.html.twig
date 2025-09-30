@@ -9,11 +9,15 @@
 
     {% if authors is defined and authors|length > 0 %}
         <p>Nombre d’auteurs : {{ authors|length }}</p>
-{% set total_books = 0 %}
-{% for author in authors %}
-    {% set total_books = total_books + author.nb_books %}
-{% endfor %}
-<p>Total de livres : {{ total_books }}</p>
+
+
+      {% set total_books = 0 %}
+      {% for author in authors %}
+      {% set total_books = total_books + author.nb_books %}
+      {% endfor %}
+      <p>Total de livres : {{ total_books }}</p>
+
+
         <table border="1" cellpadding="8">
             <tr>
                 <th>Photo</th>

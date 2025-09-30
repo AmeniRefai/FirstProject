@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+// Liste d'autheurs 
 class AuthorController extends AbstractController
 {
     #[Route('/authors', name: 'list_authors')]
@@ -53,14 +53,14 @@ class AuthorController extends AbstractController
             ),
             2 => array(
                 'id' => 2,
-                'picture' => '/images/william-shakespeare.jpg',
+                'picture' => '/images/william-shakespeare.jpeg',
                 'username' => 'William Shakespeare',
                 'email' => 'william.shakespeare@gmail.com',
                 'nb_books' => 200
             ),
             3 => array(
                 'id' => 3,
-                'picture' => '/images/Taha_Hussein.jpg',
+                'picture' => '/images/Taha_Hussein.jpeg',
                 'username' => 'Taha Hussein',
                 'email' => 'taha.hussein@gmail.com',
                 'nb_books' => 300
