@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Détails Auteur </title>
+</head>
+<body>
+    {% if author is not null %}
+        <h1>{{ author.username }}</h1>
+        <img src="{{ author.picture }}" alt="{{ author.username }}" width="150">
+        <p>Email : {{ author.email }}</p>
+        <p>Nombre de livres : {{ author.nb_books }}</p>
+        <a href="{{ path('list_authors') }}">← Retour à la liste</a>
+    {% else %}
+        <p>Auteur introuvable.</p>
+    {% endif %}
+</body>
+</html>
