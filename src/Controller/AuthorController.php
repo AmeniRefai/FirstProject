@@ -39,6 +39,7 @@ class AuthorController extends AbstractController
             'authors' => $authors
         ]);
     }
+//  les détails d'un auteur
 
     #[Route('/author/{id}', name: 'author_details')]
     public function authorDetails(int $id): Response
