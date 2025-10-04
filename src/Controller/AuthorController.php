@@ -53,14 +53,14 @@ class AuthorController extends AbstractController
             ),
             2 => array(
                 'id' => 2,
-                'picture' => '/images/william-shakespeare.jpeg',
+                'picture' => '/images/william-shakespeare.jpg',
                 'username' => 'William Shakespeare',
                 'email' => 'william.shakespeare@gmail.com',
                 'nb_books' => 200
             ),
             3 => array(
                 'id' => 3,
-                'picture' => '/images/Taha_Hussein.jpeg',
+                'picture' => '/images/Taha_Hussein.jpg',
                 'username' => 'Taha Hussein',
                 'email' => 'taha.hussein@gmail.com',
                 'nb_books' => 300
