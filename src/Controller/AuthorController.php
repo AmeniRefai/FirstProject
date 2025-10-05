@@ -7,6 +7,10 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Form\AuthorType;
+use Symfony\Component\HttpFoundation\Request;
+
+
 
 class AuthorController extends AbstractController
 {
@@ -19,20 +23,29 @@ class AuthorController extends AbstractController
             'authors' => $authors,
         ]);
     }
-//Ajouter un auteur statiquement
-#[Route('/authors/add_author', name: 'ajouter_auteur')]
-public function addAuthorStatic(ManagerRegistry $doctrine): Response
+
+
+// Ajouter un auteur via un formulaire
+#[Route('/authors/add_author_form', name: 'ajouter_auteur_formulaire')]
+public function addAuthorForm(Request $request, ManagerRegistry $doctrine): Response
 {
-    $em = $doctrine->getManager();
     $author = new Author();
-    $author->setUsername('New Author');
-    $author->setEmail('new@author.com');
-    $author->setNbBooks(10);
+    $form = $this->createForm(AuthorType::class, $author);
 
-    $em->persist($author);
-    $em->flush();
+    $form->handleRequest($request);
 
-    return $this->redirectToRoute('list_authors');
+    if ($form->isSubmitted() && $form->isValid()) {
+        $em = $doctrine->getManager();
+        $em->persist($author);
+        $em->flush();
+
+        // Redirection vers la liste après ajout
+        return $this->redirectToRoute('list_authors');
+    }
+
+    return $this->render('author/add.html.twig', [
+        'form' => $form->createView(),
+    ]);
 }
 
 //  les détails d'un auteur

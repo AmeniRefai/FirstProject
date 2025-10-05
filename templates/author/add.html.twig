@@ -1,0 +1,16 @@
+
+{% extends 'base.html.twig' %}
+{% block title %}Ajouter un Auteur{% endblock %}
+
+{% block body %}
+<h1>Add Author</h1>
+
+{{ form_start(form) }}
+<br/>
+    {{ form_widget(form) }}
+    <br/>
+    <button type="submit">Save</button>
+{{ form_end(form) }}
+<br/>
+<a href="{{ path('list_authors') }}">← Retour à la liste</a>
+{% endblock %}
