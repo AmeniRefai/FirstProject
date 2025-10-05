@@ -14,31 +14,32 @@
 
       {% set total_books = 0 %}
       {% for author in authors %}
-      {% set total_books = total_books + author.nb_books %}
       {% endfor %}
       <p>Total de livres : {{ total_books }}</p>
 
 
         <table border="1" cellpadding="8">
             <tr>
-                <th>Photo</th>
+                <th></th>
                 <th>Nom</th>
                 <th>Email</th>
-                <th>Nombre de livres</th>
-                <th>Détails</th>
+                <th>Actions</th>
             </tr>
             {% for author in authors %}
                 <tr>
-                    <td><img src="{{ author.picture }}" alt="{{ author.username }}" width="100"></td>
+                    <td>{{ author.id }}</td>
                     <td>{{ author.username|upper }}</td>
                     <td>{{ author.email }}</td>
-                    <td>{{ author.nb_books }}</td>
-                    <td><a href="{{ path('author_details', {'id': author.id}) }}">Détails</a></td>
+                    <td>
+                   </td>
+                    </td>
                 </tr>
             {% endfor %}
         </table>
     {% else %}
-        <p>Aucun auteur n’a été trouvé dans la liste. </p>
+    <tr><td colspan="5">Aucun auteur n’a été trouvé dans la liste.</td></tr>
     {% endif %}
+
+
 </body>
 </html>

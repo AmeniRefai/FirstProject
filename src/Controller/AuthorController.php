@@ -2,43 +2,39 @@
 
 namespace App\Controller;
 
+use App\Entity\Author;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-// Liste d'autheurs 
+
 class AuthorController extends AbstractController
 {
     #[Route('/authors', name: 'list_authors')]
-    public function listAuthors(): Response
+    public function listAuthors(ManagerRegistry $doctrine): Response
     {
-        $authors = array(
-            array(
-                'id' => 1,
-                'picture' => '/images/Victor-Hugo.jpg',
-                'username' => 'Victor Hugo',
-                'email' => 'victor.hugo@gmail.com',
-                'nb_books' => 100
-            ),
-            array(
-                'id' => 2,
-                'picture' => '/images/william-shakespeare.jpg',
-                'username' => 'William Shakespeare',
-                'email' => 'william.shakespeare@gmail.com',
-                'nb_books' => 200
-            ),
-            array(
-                'id' => 3,
-                'picture' => '/images/Taha_Hussein.jpg',
-                'username' => 'Taha Hussein',
-                'email' => 'taha.hussein@gmail.com',
-                'nb_books' => 300
-            ),
-        );
+        $authors = $doctrine->getRepository(Author::class)->findAll();
 
         return $this->render('author/list.html.twig', [
-            'authors' => $authors
+            'authors' => $authors,
         ]);
     }
+//Ajouter un auteur statiquement
+#[Route('/authors/add_author', name: 'ajouter_auteur')]
+public function addAuthorStatic(ManagerRegistry $doctrine): Response
+{
+    $em = $doctrine->getManager();
+    $author = new Author();
+    $author->setUsername('New Author');
+    $author->setEmail('new@author.com');
+    $author->setNbBooks(10);
+
+    $em->persist($author);
+    $em->flush();
+
+    return $this->redirectToRoute('list_authors');
+}
+
 //  les détails d'un auteur
 
     #[Route('/author/{id}', name: 'author_details')]
