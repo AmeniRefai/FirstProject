@@ -11,35 +11,48 @@
     {% if authors is defined and authors|length > 0 %}
         <p>Nombre d’auteurs : {{ authors|length }}</p>
 
+        {# Si tu veux calculer un total de livres plus tard #}
+        {% set total_books = 0 %}
+        {# Exemple de boucle si chaque auteur a une liste de livres : #}
+        {# {% for author in authors %}
+            {% set total_books = total_books + author.books|length %}
+        {% endfor %} #}
 
-      {% set total_books = 0 %}
-      {% for author in authors %}
-      {% endfor %}
-      <p>Total de livres : {{ total_books }}</p>
+        <p>Total de livres : {{ total_books }}</p>
 
+        <a href="{{ path('ajouter_auteur_formulaire') }}">
+            <img width="20" height="20" src="/images/ajouter-un-utilisateur.png" alt="Ajouter un auteur" />
+            Ajouter via formulaire
+        </a>
+
+        <br/><br/>
 
         <table border="1" cellpadding="8">
             <tr>
-                <th></th>
+                <th>ID</th>
                 <th>Nom</th>
                 <th>Email</th>
                 <th>Actions</th>
             </tr>
+
             {% for author in authors %}
                 <tr>
                     <td>{{ author.id }}</td>
                     <td>{{ author.username|upper }}</td>
                     <td>{{ author.email }}</td>
                     <td>
-                   </td>
+                        <a href="{{ path('modifier_auteur', {'id': author.id}) }}">
+                            <img width="20" height="20" src="/images/modifier.png" alt="Modifier un auteur" />
+                        </a>
                     </td>
                 </tr>
             {% endfor %}
         </table>
+
     {% else %}
-    <tr><td colspan="5">Aucun auteur n’a été trouvé dans la liste.</td></tr>
+        <p>Aucun auteur n’a été trouvé dans la liste.</p>
     {% endif %}
-<br/>
-<a href="{{ path('ajouter_auteur_formulaire') }}">📝 Ajouter via formulaire</a>
+
+    <br/>
 </body>
 </html>

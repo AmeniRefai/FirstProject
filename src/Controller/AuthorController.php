@@ -34,16 +34,41 @@ public function addAuthorForm(Request $request, ManagerRegistry $doctrine): Resp
 
     $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        $em = $doctrine->getManager();
-        $em->persist($author);
-        $em->flush();
+    if ($form->isSubmitted() && $form->isValid()) { // Si le formulaire est soumis et valide
+        //ajout en base de données
+        $em = $doctrine->getManager(); // Récupération de l'EntityManager
+        $em->persist($author); // Préparation de l'insertion (équivalent de INSERT INTO)
+        $em->flush();// Exécution de l'insertion 
 
         // Redirection vers la liste après ajout
         return $this->redirectToRoute('list_authors');
     }
-
+// Affichage du formulaire
     return $this->render('author/add.html.twig', [
+        'form' => $form->createView(),
+    ]);
+}
+// Modifier un auteur via un formulaire
+#[Route('/authors/edit/{id}', name: 'modifier_auteur')]
+public function editAuthor(ManagerRegistry $doctrine, Request $request, $id): Response
+{
+    $em = $doctrine->getManager();
+    $author = $em->getRepository(Author::class)->find($id);
+    // Vérification de l'existence de l'auteur
+    if (!$author) {
+        throw $this->createNotFoundException('Auteur non trouvé'); // Gérer le cas où l'auteur n'existe pas
+    }
+
+    $form = $this->createForm(AuthorType::class, $author); // Création du formulaire avec les données de l'auteur existant
+    $form->handleRequest($request); 
+
+    if ($form->isSubmitted() && $form->isValid()) { // Si le formulaire est soumis et valide
+        // Mise à jour en base de données
+        $em->flush(); // Exécution de la mise à jour
+        return $this->redirectToRoute('list_authors');
+    }
+
+    return $this->render('author/edit.html.twig', [
         'form' => $form->createView(),
     ]);
 }

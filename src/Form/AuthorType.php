@@ -9,7 +9,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
 class AuthorType extends AbstractType
@@ -18,10 +17,10 @@ class AuthorType extends AbstractType
     {
         $builder
             ->add('username',TextType::class,[
-                'label' => 'Nom de l\'auteur',
+                'label' => 'UserName',
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Adresse e-mail',
+                'label' => 'Email',
             ])
             
         ;
