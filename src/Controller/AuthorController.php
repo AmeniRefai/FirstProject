@@ -30,6 +30,7 @@ class AuthorController extends AbstractController
 public function addAuthorForm(Request $request, ManagerRegistry $doctrine): Response
 {
     $author = new Author();
+    // Création du formulaire (lié à l'entité Author)
     $form = $this->createForm(AuthorType::class, $author);
 
     $form->handleRequest($request);
@@ -48,6 +49,8 @@ public function addAuthorForm(Request $request, ManagerRegistry $doctrine): Resp
         'form' => $form->createView(),
     ]);
 }
+
+
 // Modifier un auteur via un formulaire
 #[Route('/authors/edit/{id}', name: 'modifier_auteur')]
 public function editAuthor(ManagerRegistry $doctrine, Request $request, $id): Response
@@ -63,8 +66,8 @@ public function editAuthor(ManagerRegistry $doctrine, Request $request, $id): Re
     $form->handleRequest($request); 
 
     if ($form->isSubmitted() && $form->isValid()) { // Si le formulaire est soumis et valide
-        // Mise à jour en base de données
-        $em->flush(); // Exécution de la mise à jour
+        // Mise à jour en base de données et pas besoin de persist car l'entité est déjà gérée par Doctrine
+        $em->flush(); // Exécution de la mise à jour 
         return $this->redirectToRoute('list_authors');
     }
 
@@ -73,6 +76,23 @@ public function editAuthor(ManagerRegistry $doctrine, Request $request, $id): Re
     ]);
 }
 
+
+//supprimer un auteur
+    #[Route('/authors/delete/{id}', name: 'supprimer_auteur')]
+    public function deleteAuthor(ManagerRegistry $doctrine, $id): Response
+    {
+        $em = $doctrine->getManager();
+        $author = $em->getRepository(Author::class)->find($id);
+
+        if ($author) {
+            $em->remove($author); // Préparation de la suppression
+            $em->flush(); // Exécution de la suppression du foncttion remove
+        }
+
+        return $this->redirectToRoute('list_authors');
+    }
+
+    
 //  les détails d'un auteur
 
     #[Route('/author/{id}', name: 'author_details')]

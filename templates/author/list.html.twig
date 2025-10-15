@@ -34,7 +34,7 @@
                 <th>Email</th>
                 <th>Actions</th>
             </tr>
-
+    #parcourir le tableau par boucle for pour afficher tout les data de base de donnée
             {% for author in authors %}
                 <tr>
                     <td>{{ author.id }}</td>
@@ -43,6 +43,10 @@
                     <td>
                         <a href="{{ path('modifier_auteur', {'id': author.id}) }}">
                             <img width="20" height="20" src="/images/modifier.png" alt="Modifier un auteur" />
+                        </a>
+                        
+                         <a href="{{ path('supprimer_auteur', {'id': author.id}) }}">
+                            <img width="20" height="20" src="/images/supprimer.png" alt="Supprimer un auteur" />
                         </a>
                     </td>
                 </tr>

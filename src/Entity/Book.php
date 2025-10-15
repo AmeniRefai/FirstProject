@@ -23,6 +23,16 @@ class Book
     #[ORM\Column]
     private ?bool $enabled = null;
 
+    // Relation ManyToOne avec Author
+    #[ORM\ManyToOne(inversedBy: 'books')]
+    private ?Author $author = null;
+
+    #[ORM\Column]
+    private ?int $ref = null;
+
+    #[ORM\Column(length: 150)]
+    private ?string $Category = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +70,40 @@ class Book
     public function setEnabled(bool $enabled): static
     {
         $this->enabled = $enabled;
+
+        return $this;
+    }
+    public function getAuthor(): ?Author
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?Author $author): static
+    {
+        $this->author = $author;
+        return $this;
+    }
+
+    public function getRef(): ?int
+    {
+        return $this->ref;
+    }
+
+    public function setRef(int $ref): static
+    {
+        $this->ref = $ref;
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->Category;
+    }
+
+    public function setCategory(string $Category): static
+    {
+        $this->Category = $Category;
 
         return $this;
     }

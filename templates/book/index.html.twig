@@ -1,0 +1,29 @@
+<h2>Liste des livres publiés</h2>
+
+<p>Livres publiés : {{ countPublished }}</p>
+<p>Livres non publiés : {{ countUnpublished }}</p>
+
+{% if books is empty %}
+    <p>No Books found</p>
+{% else %}
+    <table>
+        <tr>
+          <th>Title</th>
+          <th>Category</th>
+          <th>Author</th>
+          <th>Actions</th>
+        </tr>
+        {% for book in books %}
+            <tr>
+                <td>{{ book.title }}</td>
+                <td>{{ book.category }}</td>
+                <td>{{ book.author.name }}</td>
+                <td>
+                    <a href="{{ path('book_show', {'id': book.id}) }}">show</a>
+                    <a href="{{ path('book_edit', {'id': book.id}) }}">edit</a>
+                    <a href="{{ path('book_delete', {'id': book.id}) }}">delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
