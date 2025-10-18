@@ -1,0 +1,19 @@
+{# templates/book/show.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du livre{% endblock %}
+
+{% block body %}
+    <h1>Détails du livre</h1>
+
+    <div class="book-details">
+        <p><strong>ID :</strong> {{ book.id }}</p>
+        <p><strong>Titre :</strong> {{ book.title }}</p>
+        <p><strong>Auteur :</strong> {{ book.author.name }}</p>
+        <p><strong>Publié :</strong> {{ book.enabled ? 'Oui' : 'Non' }}</p>
+    </div>
+
+    <a href="{{ path('book_index') }}" class="btn btn-primary">← Retour à la liste</a>
+    <a href="{{ path('book_edit', {'id': book.id}) }}" class="btn btn-warning">✏️ Modifier</a>
+    <a href="{{ path('book_delete', {'id': book.id}) }}" class="btn btn-danger">🗑️ Supprimer</a>
+{% endblock %}

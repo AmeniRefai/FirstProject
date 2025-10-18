@@ -15,7 +15,8 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/book')]
 class BookController extends AbstractController
 {
-    #[Route('/', name: 'book_show')]
+    // ✅ Liste des livres
+    #[Route('/', name: 'book_index')]
     public function index(BookRepository $repo): Response
     {
         $books = $repo->findBy(['enabled' => true]);
@@ -30,7 +31,8 @@ class BookController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_book_new')]
+    // ✅ Ajouter un nouveau livre
+    #[Route('/new', name: 'book_new')]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $book = new Book();
@@ -49,7 +51,8 @@ class BookController extends AbstractController
             $em->persist($book);
             $em->flush();
 
-            return $this->redirectToRoute('book_show');
+            // ✅ redirection vers la page du livre créé
+            return $this->redirectToRoute('book_show', ['id' => $book->getId()]);
         }
 
         return $this->render('book/new.html.twig', [
@@ -57,7 +60,8 @@ class BookController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_book_edit')]
+    // ✅ Modifier un livre
+    #[Route('/{id}/edit', name: 'book_edit')]
     public function edit(Request $request, Book $book, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(BookType::class, $book);
@@ -65,7 +69,9 @@ class BookController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
-            return $this->redirectToRoute('book_show');
+
+            // ✅ redirection vers la liste après modification
+            return $this->redirectToRoute('book_index');
         }
 
         return $this->render('book/edit.html.twig', [
@@ -74,7 +80,8 @@ class BookController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'app_book_delete')]
+    // ✅ Supprimer un livre
+    #[Route('/{id}/delete', name: 'book_delete')]
     public function delete(Book $book, EntityManagerInterface $em): Response
     {
         $author = $book->getAuthor();
@@ -88,15 +95,17 @@ class BookController extends AbstractController
             $em->flush();
 
             // Supprimer l’auteur si nb_books = 0
-            if ($author->getNbBooks() == 0) {
+            if ($author->getNbBooks() === 0) {
                 $em->remove($author);
                 $em->flush();
             }
         }
 
-        return $this->redirectToRoute('book_show');
+        // ✅ redirection vers la liste
+        return $this->redirectToRoute('book_index');
     }
 
+    // ✅ Afficher un livre
     #[Route('/{id}', name: 'book_show')]
     public function show(Book $book): Response
     {

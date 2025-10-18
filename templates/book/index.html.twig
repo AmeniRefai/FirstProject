@@ -1,29 +1,47 @@
-<h2>Liste des livres publiés</h2>
+{% extends 'base.html.twig' %}
 
-<p>Livres publiés : {{ countPublished }}</p>
-<p>Livres non publiés : {{ countUnpublished }}</p>
+{% block title %}List of Books{% endblock %}
 
-{% if books is empty %}
-    <p>No Books found</p>
-{% else %}
-    <table>
-        <tr>
-          <th>Title</th>
-          <th>Category</th>
-          <th>Author</th>
-          <th>Actions</th>
-        </tr>
-        {% for book in books %}
-            <tr>
-                <td>{{ book.title }}</td>
-                <td>{{ book.category }}</td>
-                <td>{{ book.author.name }}</td>
-                <td>
-                    <a href="{{ path('book_show', {'id': book.id}) }}">show</a>
-                    <a href="{{ path('book_edit', {'id': book.id}) }}">edit</a>
-                    <a href="{{ path('book_delete', {'id': book.id}) }}">delete</a>
-                </td>
+{% block body %}
+    <h1 style="text-align:center;">List of Books</h1>
+
+    <table border="1" cellspacing="0" cellpadding="6" align="center">
+        <thead>
+            <tr style="background-color:#f3f3f3;">
+                <th>Title</th>
+                <th>Publication date</th>
+                <th>Published</th>
+                <th>Category</th>
+                <th>Author</th>
             </tr>
-        {% endfor %}
+        </thead>
+        <tbody>
+        
+            {% for book in books %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.publicationDate ? book.publicationDate|date('F j, Y H:i') : '' }}</td>
+                    <td>{{ book.enabled ? 1 : 0 }}</td>
+                    <td>{{ book.category }}</td>
+                    <td>{{ book.author.name }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" style="text-align:center;">No books found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
-{% endif %}
+
+    <div style="text-align:center; margin-top:20px;">
+        <p>Number of published books : {{ countPublished }}</p>
+        <p>Number of unpublished books : {{ countUnpublished }}</p>
+
+        <a href="{{ path('book_new') }}" 
+           style="text-decoration:none; background-color:#e6e6fa; 
+                  border:1px solid #999; padding:6px 12px; border-radius:4px; 
+                  color:#333;">
+            Create new
+        </a>
+    </div>
+{% endblock %}
