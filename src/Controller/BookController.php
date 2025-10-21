@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/book')]
 class BookController extends AbstractController
 {
-    // ✅ Liste des livres
+    // Liste des livres
     #[Route('/', name: 'book_index')]
     public function index(BookRepository $repo): Response
     {
@@ -31,7 +31,7 @@ class BookController extends AbstractController
         ]);
     }
 
-    // ✅ Ajouter un nouveau livre
+    // Ajouter un nouveau livre
     #[Route('/new', name: 'book_new')]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
@@ -51,7 +51,7 @@ class BookController extends AbstractController
             $em->persist($book);
             $em->flush();
 
-            // ✅ redirection vers la page du livre créé
+            // redirection vers la page du livre créé
             return $this->redirectToRoute('book_show', ['id' => $book->getId()]);
         }
 
@@ -60,7 +60,7 @@ class BookController extends AbstractController
         ]);
     }
 
-    // ✅ Modifier un livre
+    // Modifier un livre
     #[Route('/{id}/edit', name: 'book_edit')]
     public function edit(Request $request, Book $book, EntityManagerInterface $em): Response
     {
@@ -70,7 +70,7 @@ class BookController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
 
-            // ✅ redirection vers la liste après modification
+            //redirection vers la liste après modification
             return $this->redirectToRoute('book_index');
         }
 
@@ -80,7 +80,7 @@ class BookController extends AbstractController
         ]);
     }
 
-    // ✅ Supprimer un livre
+    // Supprimer un livre
     #[Route('/{id}/delete', name: 'book_delete')]
     public function delete(Book $book, EntityManagerInterface $em): Response
     {
@@ -95,17 +95,17 @@ class BookController extends AbstractController
             $em->flush();
 
             // Supprimer l’auteur si nb_books = 0
-            if ($author->getNbBooks() === 0) {
+            if ($author->getNbBooks() <= 0) {
                 $em->remove($author);
                 $em->flush();
             }
         }
 
-        // ✅ redirection vers la liste
+        // redirection vers la liste
         return $this->redirectToRoute('book_index');
     }
 
-    // ✅ Afficher un livre
+    // Afficher un livre
     #[Route('/{id}', name: 'book_show')]
     public function show(Book $book): Response
     {

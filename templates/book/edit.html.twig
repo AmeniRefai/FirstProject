@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Book{% endblock %}
+
+{% block body %}
+    <h1 style="text-align:center;">Edit Book</h1>
+
+    <div style="width:50%; margin:auto; border:1px solid #ddd; padding:20px; border-radius:6px; background-color:#fafafa;">
+        {{ form_start(form) }}
+
+        <div style="margin-bottom:10px;">
+            {{ form_label(form.title, 'Title :') }}<br>
+            {{ form_widget(form.title, {'attr': {'style': 'width:100%; padding:6px;'}}) }}
+        </div>
+
+        <div style="margin-bottom:10px;">
+            {{ form_label(form.category, 'Category :') }}<br>
+            {{ form_widget(form.category, {'attr': {'style': 'width:100%; padding:6px;'}}) }}
+        </div>
+
+        <div style="margin-bottom:10px;">
+            {{ form_label(form.author, 'Author :') }}<br>
+            {{ form_widget(form.author, {'attr': {'style': 'width:100%; padding:6px;'}}) }}
+        </div>
+
+        <div style="margin-bottom:10px;">
+            {{ form_label(form.enabled, 'Published :') }}<br>
+            {{ form_widget(form.enabled) }}
+        </div>
+
+        <button type="submit" 
+                style="background-color:#4CAF50; color:white; padding:8px 16px; border:none; border-radius:4px; cursor:pointer;">
+            Save Changes
+        </button>
+
+        {{ form_end(form) }}
+
+        <div style="margin-top:15px;">
+            <a href="{{ path('book_index') }}" 
+               style="text-decoration:none; color:#333; border:1px solid #ccc; padding:6px 12px; border-radius:4px; background-color:#eee;">
+                ← Back to list
+            </a>
+        </div>
+    </div>
+{% endblock %}

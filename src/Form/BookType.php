@@ -32,9 +32,20 @@ class BookType extends AbstractType
                     'Autobiography' => 'Autobiography',
                 ],
             ])
+            ->add('enabled', ChoiceType::class, [
+                'label' => 'Published',
+                'choices' => [
+                    'Yes' => true,
+                    'No' => false,
+                ],
+                'expanded' => true, // affiche deux boutons radio
+                'multiple' => false,
+            ])
             ->add('author', EntityType::class, [
                 'class' => Author::class,
-                'choice_label' => 'name',
+                'choice_label' => function (Author $author) {
+                    return $author->getName() . ' (' . $author->getUsername() . ')';
+                },
                 'placeholder' => 'Select an author',
             ]);
     }
