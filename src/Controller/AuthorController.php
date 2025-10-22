@@ -35,7 +35,7 @@ public function addAuthorForm(Request $request, ManagerRegistry $doctrine): Resp
 
     $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) { // Si le formulaire est soumis et valide
+    if ($form->isSubmitted()) { // Si le formulaire est soumis et valide
         //ajout en base de données
         $em = $doctrine->getManager(); // Récupération de l'EntityManager
         $em->persist($author); // Préparation de l'insertion (équivalent de INSERT INTO)
@@ -65,7 +65,7 @@ public function editAuthor(ManagerRegistry $doctrine, Request $request, $id): Re
     $form = $this->createForm(AuthorType::class, $author); // Création du formulaire avec les données de l'auteur existant
     $form->handleRequest($request); 
 
-    if ($form->isSubmitted() && $form->isValid()) { // Si le formulaire est soumis et valide
+    if ($form->isSubmitted()) { // Si le formulaire est soumis et valide
         // Mise à jour en base de données et pas besoin de persist car l'entité est déjà gérée par Doctrine
         $em->flush(); // Exécution de la mise à jour 
         return $this->redirectToRoute('list_authors');

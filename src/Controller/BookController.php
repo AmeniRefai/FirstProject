@@ -35,11 +35,11 @@ class BookController extends AbstractController
     #[Route('/new', name: 'book_new')]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
-        $book = new Book();
-        $form = $this->createForm(BookType::class, $book);
-        $form->handleRequest($request);
+        $book = new Book(); // créer une nouvelle instance de Book(na3mel objet feri8 lenaa )
+        $form = $this->createForm(BookType::class, $book); //(na3mel formulaire mte3ou mte3 type BookType w nhoto fel objet el jdid)
+        $form->handleRequest($request); //(na5ou les données eli jeyin mel requete w n7otohom fel formulaire)
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) { // si le formulaire est soumis
             $book->setEnabled(true); // par défaut publié
 
             // Incrémenter nb_books de l’auteur
@@ -56,7 +56,7 @@ class BookController extends AbstractController
         }
 
         return $this->render('book/new.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form->createView(), // (na3mel view mte3 el formulaire w n3ayto lel template)
         ]);
     }
 
@@ -67,7 +67,7 @@ class BookController extends AbstractController
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
             $em->flush();
 
             //redirection vers la liste après modification
@@ -75,7 +75,7 @@ class BookController extends AbstractController
         }
 
         return $this->render('book/edit.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form->createView(),  // form ilyy déclaritha lenaa n3aytelhaa fel template
             'book' => $book,
         ]);
     }
